@@ -237,10 +237,10 @@ export class Chromium extends BrowserType {
       } else {
         // Selenium 3 - resolve target node IP to use instead of localhost ws url.
         progress.log(`<selenium> using selenium v3`);
-        const maybeChromeOptions = capabilities['goog:chromeOptions'];
-        const chromeOptions = maybeChromeOptions && typeof maybeChromeOptions === 'object' ? maybeChromeOptions : undefined;
-        const debuggerAddress = chromeOptions && typeof chromeOptions.debuggerAddress === 'string' ? chromeOptions.debuggerAddress : undefined;
-        const chromeOptionsURL = typeof maybeChromeOptions === 'string' ? maybeChromeOptions : undefined;
+        const maybeBrowserOptions = capabilities['goog:chromeOptions'] ?? capabilities['ms:edgeOptions'];
+        const browserOptions = maybeBrowserOptions && typeof maybeBrowserOptions === 'object' ? maybeBrowserOptions : undefined;
+        const debuggerAddress = browserOptions && typeof browserOptions.debuggerAddress === 'string' ? browserOptions.debuggerAddress : undefined;
+        const chromeOptionsURL = typeof maybeBrowserOptions === 'string' ? maybeBrowserOptions : undefined;
         // TODO(dgozman): figure out if we can make ChromeDriver to return 127.0.0.1 instead of localhost.
         const endpointURLString = addProtocol(debuggerAddress || chromeOptionsURL).replace('localhost', '127.0.0.1');
         progress.log(`<selenium> retrieved endpoint ${endpointURLString} for sessionId=${sessionId}`);
